@@ -22,3 +22,5 @@ docker volume rm $(docker volume ls -q)
 
 docker ps -a
 docker volume ls
+
+# curl -sSL https://raw.githubusercontent.com/catwarrior/rancherfiles/master/rancher-cleanup.sh | sh
