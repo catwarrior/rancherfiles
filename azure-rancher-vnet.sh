@@ -29,6 +29,6 @@ az vmss extension set \
   --vmss-name rancher3 \
   --name customScript \
   --publisher Microsoft.Azure.Extensions \
-  --settings '{"fileUris": ["https://raw.githubusercontent.com/catwarrior/rancherfiles/master/rancher-slaves.sh"],"commandToExecute": "./rancher-slave.sh http://172.21.1.196:8080/v1/scripts/3C99474E1D679EA93E60:1483142400000:qyqummPGyQLxnuEaA0MjnFrs"}'
+  --settings '{"fileUris": ["https://raw.githubusercontent.com/catwarrior/rancherfiles/master/rancher-slaves.sh"],"commandToExecute": "./rancher-slaves.sh http://172.21.1.196:8080/v1/scripts/3C99474E1D679EA93E60:1483142400000:qyqummPGyQLxnuEaA0MjnFrs"}'
 
 az vmss update-instances --instance-ids "*" -n rancher3 -g vmssrg3
