@@ -15,7 +15,7 @@ az vmss create --name rancher3 --resource-group vmssrg3 --location chinanorth --
 --authentication-type password --admin-username myadmin --admin-password Admin@1234567890 \
 --use-unmanaged-disk --storage-sku Standard_LRS \
 --image SUSE:SLES:12-SP2:2017.03.20 --output table \
---vnet-name vmssvnet --subnet vmssvnetsub1 \
+--subnet /subscriptions/96e96992-4c36-4b58-a68f-ecbfb1f1b79e/resourceGroups/xmbafcmcnbeinfvnt001rg/providers/Microsoft.Network/virtualNetworks/XMBAFCMCNINFVNT001RG/subnets/XMBAFCMCNINFS03DB \
 --load-balancer "" --public-ip-address ""
 
 az vm extension set \
