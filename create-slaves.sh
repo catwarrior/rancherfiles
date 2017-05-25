@@ -10,5 +10,5 @@ az vmss extension set \
   --vmss-name rancher3 \
   --name customScript \
   --publisher Microsoft.Azure.Extensions \
-  --settings '{"fileUris": ["https://raw.githubusercontent.com/catwarrior/rancherfiles/master/rancher-slaves.sh"],"commandToExecute": "./rancher-slaves.sh $1'
+  --settings '{"fileUris": ["https://raw.githubusercontent.com/catwarrior/rancherfiles/master/rancher-slaves.sh"],"commandToExecute": "./rancher-slaves.sh $1}'
 az vmss update-instances --instance-ids "*" -n rancher3 -g vmssrg3
