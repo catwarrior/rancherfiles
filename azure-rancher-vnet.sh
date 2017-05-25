@@ -24,11 +24,11 @@ az vmss create --name rancher3 --resource-group vmssrg3 --location chinanorth --
 --subnet /subscriptions/96e96992-4c36-4b58-a68f-ecbfb1f1b79e/resourceGroups/xmbafcmcnbeinfvnt001rg/providers/Microsoft.Network/virtualNetworks/XMBAFCMCNINFVNT001RG/subnets/XMBAFCMCNINFS03DB \
 --load-balancer "" --public-ip-address ""
 
-az vmss extension set '
-  --resource-group vmssrg3 `
-  --vmss-name rancher3 `
-  --name customScript `
-  --publisher Microsoft.Azure.Extensions `
+az vmss extension set \
+  --resource-group vmssrg3 \
+  --vmss-name rancher3 \
+  --name customScript \
+  --publisher Microsoft.Azure.Extensions \
   --settings '{"fileUris": ["https://raw.githubusercontent.com/catwarrior/rancherfiles/master/setup.sh"],"commandToExecute": "./setup.sh"}'
 
 az vm extension set --resource-group vmssrg3 --vm-name vmmaster --name customScript --publisher Microsoft.Azure.Extensions --settings ./script-config.json --verbose --debug
