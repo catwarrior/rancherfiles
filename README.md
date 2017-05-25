@@ -8,3 +8,6 @@ Steps:
   2. > create-master.sh
   3. Open rancher gui, create environment, add prviate registry if using kubernetes intranet or in china, add private registry
   4. > create-slaves.sh %rancher-add-node-api-uri%
+
+Tips:
+  Scale vmss ` az vmss scale --new-capacity 5 -n rancher3 -g vmssrg3`
