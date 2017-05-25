@@ -11,3 +11,5 @@ Steps:
 
 Tips:
   Scale vmss ` az vmss scale --new-capacity 5 -n rancher3 -g vmssrg3`
+  
+  Remove disconnected vms periodically https://hub.docker.com/r/wmbutler/rancher-purge/
