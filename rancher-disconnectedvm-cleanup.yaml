@@ -1,0 +1,10 @@
+version: '2'
+services:
+  rancher-purge:
+    image: wmbutler/rancher-purge
+    environment:
+      RANCHER_ACCESS_KEY: 02579406B155C15055D0
+      RANCHER_SECRET_KEY: hmtAU1QhzssELTi3pJdarzFK9GxRN2FU5hUihSCh
+      RANCHER_URL: http://172.21.1.196:8080/v2-beta/schemas
+      RANCHER_ENVIRONMENT: 1a7
+      INTERVAL: 30
