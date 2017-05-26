@@ -1,4 +1,5 @@
 #!/bin/bash
+az group create -n vmssnodesrg -l chinanorth
 az vmss create --name rancher3 --resource-group vmssnodesrg  --location chinanorth --instance-count 2 --vm-sku Standard_A3 \
 --authentication-type password --admin-username myadmin --admin-password Admin@1234567890 \
 --use-unmanaged-disk --storage-sku Standard_LRS \
