@@ -6,5 +6,3 @@ systemctl enable docker.service
 systemctl restart docker.service
 ## start rancher master
 docker run -d --restart=unless-stopped -p 8080:8080 rancher/server:stable
-## start rancher nodes cleaner
-docker run -d --restart=unless-stopped catwarrior/rancher-purge:latest
