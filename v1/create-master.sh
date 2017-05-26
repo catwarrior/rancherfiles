@@ -1,6 +1,6 @@
 #!/bin/bash
-az group create -n vmssrg3 -l chinanorth
-az vm create -g vmssrg3 -n ranchermaster \
+az group create -n vmssrgmaster -l chinanorth
+az vm create -g vmssrgmaster -n ranchermaster \
 --authentication-type password --admin-username myadmin --admin-password Admin@1234567890 \
 --use-unmanaged-disk --storage-sku Standard_LRS \
 --size Basic_A3 \
@@ -8,7 +8,7 @@ az vm create -g vmssrg3 -n ranchermaster \
 --subnet /subscriptions/96e96992-4c36-4b58-a68f-ecbfb1f1b79e/resourceGroups/xmbafcmcnbeinfvnt001rg/providers/Microsoft.Network/virtualNetworks/XMBAFCMCNINFVNT001RG/subnets/XMBAFCMCNINFS03DB \
 --public-ip-address ""
 az vm extension set \
-  --resource-group vmssrg3 \
+  --resource-group vmssrgmaster \
   --vm-name ranchermaster \
   --name customScript \
   --publisher Microsoft.Azure.Extensions \
