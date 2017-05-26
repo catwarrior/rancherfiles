@@ -12,4 +12,4 @@ az vm extension set \
   --vm-name ranchermaster \
   --name customScript \
   --publisher Microsoft.Azure.Extensions \
-  --settings '{"fileUris": ["https://raw.githubusercontent.com/catwarrior/rancherfiles/master/rancher-master.sh"],"commandToExecute": "./rancher-master.sh"}'
+  --settings '{"fileUris": ["https://raw.githubusercontent.com/catwarrior/rancherfiles/master/v1/rancher-master.sh"],"commandToExecute": "./rancher-master.sh"}'
