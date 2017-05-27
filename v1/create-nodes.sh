@@ -1,7 +1,7 @@
 #!/bin/bash
-group_name=vmssnodesrg
-cluster_name=rancher3
-rancher_api=xx
+#group_name=vmssnodesrg
+#cluster_name=rancher3
+#rancher_api=xx
 az group create -n $(group_name) -l chinanorth
 az vmss create --name $(cluster_name) --resource-group $(group_name) --location chinanorth --instance-count 2 --vm-sku Standard_A3 \
 --authentication-type password --admin-username myadmin --admin-password Admin@1234567890 \
