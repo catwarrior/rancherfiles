@@ -1,4 +1,5 @@
 #!/bin/bash
+
 az group create -n vmssnodesrg -l chinanorth
 az vmss create --name rancher3 --resource-group vmssnodesrg  --location chinanorth --instance-count 2 --vm-sku Standard_A3 \
 --authentication-type password --admin-username myadmin --admin-password Admin@1234567890 \
@@ -11,5 +12,5 @@ az vmss extension set \
   --vmss-name rancher3 \
   --name customScript \
   --publisher Microsoft.Azure.Extensions \
-  --settings '{"fileUris": ["https://raw.githubusercontent.com/catwarrior/rancherfiles/master/v1/rancher-slaves.sh"],"commandToExecute": "./rancher-slaves.sh $1"}'
+  --settings "{\"fileUris\": [\"https://raw.githubusercontent.com/catwarrior/rancherfiles/master/v1/rancher-slaves.sh\"],\"commandToExecute\": \"./rancher-slaves.sh $1\"}"
 az vmss update-instances --instance-ids "*" -n rancher3 -g vmssnodesrg
