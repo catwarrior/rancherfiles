@@ -5,7 +5,8 @@ echo { \"registry-mirrors\": [\"https://iakbs8nw.mirror.aliyuncs.com\"], \"insec
 systemctl enable docker.service
 systemctl restart docker.service
 vmname=`cat /proc/sys/kernel/random/uuid| cksum | cut -f1 -d" "`
-hostname $vmname
+hostname vm$vmname
+sysctl -w kernel.hostname=vm$vmname
 ## add nodes
 docker run --rm --privileged \
   -v /var/run/docker.sock:/var/run/docker.sock \
