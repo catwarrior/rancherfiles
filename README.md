@@ -18,3 +18,30 @@ Tips:
   Scale vmss ` az vmss scale --new-capacity 5 -n rancher3 -g vmssrg3`
   
   Remove disconnected vms periodically https://hub.docker.com/r/wmbutler/rancher-purge/
+
+# Auto clean up dead hosts on rancher.
+  1. Monitoring on rancher with rancher cli.
+  2. Remove the hosts when it under `DISCONNECTED` or `INACTIVE` via calling rancher cli.
+  3. Sample script:
+  `
+  #!/bin/sh
+  while :
+  do
+      echo "Checking for inactive hosts every $INTERVAL seconds..."
+      rancher hosts -a | grep -E 'disconnected' | while read LINE1
+      do
+          HOST=$(echo $LINE1 | cut -d ' ' -f 1)
+          echo "stop $LINE1"
+          rancher stop --type host $HOST
+      done
+      sleep $INTERVAL
+      rancher hosts -a | grep -E 'inactive' | while read LINE
+      do
+          HOST=$(echo $LINE | cut -d ' ' -f 1)
+          echo "Delete $LINE"
+          rancher rm --type host $HOST
+      done
+      sleep $INTERVAL
+  done
+  
+  `
