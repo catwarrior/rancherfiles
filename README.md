@@ -25,6 +25,7 @@ Tips:
   2. Remove the hosts when it under `DISCONNECTED` or `INACTIVE` via calling rancher cli.
   
   3. Sample script:
+  
   `
   #!/bin/sh
   while :
