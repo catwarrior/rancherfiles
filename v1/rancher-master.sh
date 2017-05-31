@@ -5,6 +5,6 @@ echo { \"registry-mirrors\": [\"https://iakbs8nw.mirror.aliyuncs.com\"], \"insec
 systemctl enable docker.service
 systemctl restart docker.service
 vmname=`cat /proc/sys/kernel/random/uuid| cksum | cut -f1 -d" "`
-hostname vmname
+hostname $vmname
 ## start rancher master
 docker run -d --restart=unless-stopped -p 8080:8080 rancher/server
