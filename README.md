@@ -16,8 +16,6 @@ Steps:
 
 Tips:
   Scale vmss ` az vmss scale --new-capacity 5 -n rancher3 -g vmssrg3`
-  
-  Remove disconnected vms periodically https://hub.docker.com/r/wmbutler/rancher-purge/
 
 # Auto clean up dead hosts on rancher.
   1. Monitoring on rancher with rancher cli.
@@ -45,4 +43,6 @@ Tips:
       done
       sleep $INTERVAL
   done
+  
+  https://hub.docker.com/r/catwarrior/rancher-purge/
  
