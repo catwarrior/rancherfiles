@@ -26,7 +26,6 @@ Tips:
   
   3. Sample script:
   
-  `
   #!/bin/sh
   while :
   do
@@ -46,5 +45,4 @@ Tips:
       done
       sleep $INTERVAL
   done
-  
-  `
+ 
