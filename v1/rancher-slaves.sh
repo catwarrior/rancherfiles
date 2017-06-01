@@ -1,5 +1,4 @@
 #!/bin/bash
-systemctl stop waagent.service
 mkdir -p /etc/docker
 touch /etc/docker/daemon.json
 echo { \"registry-mirrors\": [\"https://iakbs8nw.mirror.aliyuncs.com\"], \"insecure-registries\": [\"42.159.29.145:18083\"], \"storage-driver\": \"overlay2\" } > /etc/docker/daemon.json
