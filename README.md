@@ -21,7 +21,7 @@ Tips:
 1. Monitoring on rancher with rancher cli.
 2. Remove the hosts when it under `DISCONNECTED` or `INACTIVE` via calling rancher cli.
 3. Sample script:
-  
+`  
   #!/bin/sh
   while :
   do
@@ -41,6 +41,6 @@ Tips:
       done
       sleep $INTERVAL
   done
-  
+ ` 
   https://hub.docker.com/r/catwarrior/rancher-purge/
  
