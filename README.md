@@ -18,11 +18,9 @@ Tips:
   Scale vmss ` az vmss scale --new-capacity 5 -n rancher3 -g vmssrg3`
 
 # Auto clean up dead hosts on rancher.
-  1. Monitoring on rancher with rancher cli.
-  
-  2. Remove the hosts when it under `DISCONNECTED` or `INACTIVE` via calling rancher cli.
-  
-  3. Sample script:
+1. Monitoring on rancher with rancher cli.
+2. Remove the hosts when it under `DISCONNECTED` or `INACTIVE` via calling rancher cli.
+3. Sample script:
   
   #!/bin/sh
   while :
