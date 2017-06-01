@@ -11,5 +11,5 @@ az vmss extension set \
   --vmss-name $cluster_name \
   --name customScript \
   --publisher Microsoft.Azure.Extensions \
-  --settings "{\"fileUris\": [\"https://raw.githubusercontent.com/catwarrior/rancherfiles/master/v1/rancher-slaves.sh\"],\"commandToExecute\": \"./rancher-slaves.sh $rancher_api\"}"
+  --settings "{\"fileUris\": [\"https://raw.githubusercontent.com/catwarrior/rancherfiles/master/ubt/rancher-slaves.sh\"],\"commandToExecute\": \"./rancher-slaves.sh $rancher_api\"}"
 az vmss update-instances --instance-ids "*" -n $cluster_name -g $group_name
