@@ -1,6 +1,6 @@
 #!/bin/bash
 az group create -n $group_name -l chinanorth
-az vmss create --name $cluster_name --resource-group $group_name --location chinanorth --instance-count 2 --vm-sku Standard_A3 \
+az vmss create --name $cluster_name --resource-group $group_name --location chinanorth --instance-count 5 --vm-sku Standard_A3 \
 --authentication-type password --admin-username myadmin --admin-password Admin@1234567890 \
 --use-unmanaged-disk --storage-sku Standard_LRS \
 --image SUSE:SLES:12-SP2:2017.03.20 --output table \
