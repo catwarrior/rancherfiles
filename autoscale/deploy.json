@@ -1,14 +1,7 @@
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01-preview/deploymentTemplate.json",
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "rancherApi": {
-        "type": "string",
-        "defaultValue": "",
-        "metadata": {
-            "description": "Rancher Host API string"
-        }
-    },
     "vmSku": {
       "type": "string",
       "defaultValue": "Standard_A1",
@@ -18,10 +11,11 @@
     },
     "ubuntuOSVersion": {
       "type": "string",
-      "defaultValue": "14.04.4-LTS",
+      "defaultValue": "14.04.3-LTS",
       "allowedValues": [
-        "15.10",
-        "14.04.4-LTS"
+        "16.04-LTS",
+        "14.04.3-LTS",
+        "12.04.5-LTS"
       ],
       "metadata": {
         "description": "The Ubuntu version for the VM. This will pick a fully patched image of this given Ubuntu version. Allowed values are: 15.10, 14.04.4-LTS."
@@ -85,6 +79,8 @@
     "nicName": "[concat(variables('namingInfix'), 'nic')]",
     "ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
     "frontEndIPConfigID": "[concat(variables('lbID'),'/frontendIPConfigurations/loadBalancerFrontEnd')]",
+    "lbPoolID": "[concat(variables('lbID'),'/backendAddressPools/', variables('bePoolName'))]",
+    "lbProbeID": "[concat(variables('lbID'),'/probes/tcpProbe')]",
     "diagnosticsStorageAccountName": "[concat(variables('uniqueStringArray')[0], variables('newStorageAccountSuffix'))]",
     "diagnosticsStorageAccountResourceGroup": "[resourceGroup().name]",
     "accountid": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',variables('diagnosticsStorageAccountResourceGroup'),'/providers/','Microsoft.Storage/storageAccounts/', variables('diagnosticsStorageAccountName'))]",
@@ -177,6 +173,38 @@
             "name": "[variables('bePoolName')]"
           }
         ],
+        "loadBalancingRules": [
+          {
+            "name": "LBRule",
+            "properties": {
+              "frontendIPConfiguration": {
+                "id": "[variables('frontEndIPConfigID')]"
+              },
+              "backendAddressPool": {
+                "id": "[variables('lbPoolID')]"
+              },
+              "protocol": "tcp",
+              "frontendPort": 80,
+              "backendPort": 80,
+              "enableFloatingIP": false,
+              "idleTimeoutInMinutes": 5,
+              "probe": {
+                "id": "[variables('lbProbeID')]"
+              }
+            }
+          }
+        ],
+        "probes": [
+          {
+            "name": "tcpProbe",
+            "properties": {
+              "protocol": "tcp",
+              "port": 80,
+              "intervalInSeconds": "5",
+              "numberOfProbes": "2"
+            }
+          }
+        ],
         "inboundNatPools": [
           {
             "name": "[variables('natPoolName')]",
@@ -199,11 +227,7 @@
       "location": "[resourceGroup().location]",
       "apiVersion": "[variables('computeApiVersion')]",
       "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', variables('uniqueStringArray')[0], variables('newStorageAccountSuffix'))]",
-        "[concat('Microsoft.Storage/storageAccounts/', variables('uniqueStringArray')[1], variables('newStorageAccountSuffix'))]",
-        "[concat('Microsoft.Storage/storageAccounts/', variables('uniqueStringArray')[2], variables('newStorageAccountSuffix'))]",
-        "[concat('Microsoft.Storage/storageAccounts/', variables('uniqueStringArray')[3], variables('newStorageAccountSuffix'))]",
-        "[concat('Microsoft.Storage/storageAccounts/', variables('uniqueStringArray')[4], variables('newStorageAccountSuffix'))]",
+        "storageLoop",
         "[concat('Microsoft.Network/loadBalancers/', variables('loadBalancerName'))]",
         "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
       ],
@@ -221,11 +245,11 @@
           "storageProfile": {
             "osDisk": {
               "vhdContainers": [
-                "[concat('https://', variables('uniqueStringArray')[0], variables('newStorageAccountSuffix'), '.blob.core.windows.net/', variables('vhdContainerName'))]",
-                "[concat('https://', variables('uniqueStringArray')[1], variables('newStorageAccountSuffix'), '.blob.core.windows.net/', variables('vhdContainerName'))]",
-                "[concat('https://', variables('uniqueStringArray')[2], variables('newStorageAccountSuffix'), '.blob.core.windows.net/', variables('vhdContainerName'))]",
-                "[concat('https://', variables('uniqueStringArray')[3], variables('newStorageAccountSuffix'), '.blob.core.windows.net/', variables('vhdContainerName'))]",
-                "[concat('https://', variables('uniqueStringArray')[4], variables('newStorageAccountSuffix'), '.blob.core.windows.net/', variables('vhdContainerName'))]"
+                "[concat('https://', variables('uniqueStringArray')[0], variables('newStorageAccountSuffix'), '.blob.core.chinacloudapi.cn/', variables('vhdContainerName'))]",
+                "[concat('https://', variables('uniqueStringArray')[1], variables('newStorageAccountSuffix'), '.blob.core.chinacloudapi.cn/', variables('vhdContainerName'))]",
+                "[concat('https://', variables('uniqueStringArray')[2], variables('newStorageAccountSuffix'), '.blob.core.chinacloudapi.cn/', variables('vhdContainerName'))]",
+                "[concat('https://', variables('uniqueStringArray')[3], variables('newStorageAccountSuffix'), '.blob.core.chinacloudapi.cn/', variables('vhdContainerName'))]",
+                "[concat('https://', variables('uniqueStringArray')[4], variables('newStorageAccountSuffix'), '.blob.core.chinacloudapi.cn/', variables('vhdContainerName'))]"
               ],
               "name": "[variables('osDiskName')]",
               "caching": "ReadOnly",
@@ -253,7 +277,7 @@
                         },
                         "loadBalancerBackendAddressPools": [
                           {
-                            "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancerName'), '/backendAddressPools/', variables('bePoolName'))]"
+                          "id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/loadBalancers/', variables('loadBalancerName'), '/backendAddressPools/', variables('bePoolName'))]"
                           }
                         ],
                         "loadBalancerInboundNatPools": [
@@ -271,6 +295,23 @@
           "extensionProfile": {
             "extensions": [
               {
+                "name": "lapextension",
+                "properties": {
+                  "publisher": "Microsoft.OSTCExtensions",
+                  "type": "CustomScriptForLinux",
+                  "typeHandlerVersion": "1.4",
+                  "autoUpgradeMinorVersion": false,
+                  "settings": {
+                    "fileUris": [
+                      "https://raw.githubusercontent.com/kingliantop/azurelabs/master/AzureChinaARMTemplate/vmss-lapstack-autoscale/install_lap.sh",
+                      "https://raw.githubusercontent.com/kingliantop/azurelabs/master/AzureChinaARMTemplate/vmss-lapstack-autoscale/index.php",
+                      "https://raw.githubusercontent.com/kingliantop/azurelabs/master/AzureChinaARMTemplate/vmss-lapstack-autoscale/do_work.php"
+                    ],
+                    "commandToExecute": "bash install_lap.sh"
+                  }
+                }
+              },
+              {
                 "name": "LinuxDiagnostic",
                 "properties": {
                   "publisher": "Microsoft.OSTCExtensions",
@@ -284,42 +325,78 @@
                   "protectedSettings": {
                     "storageAccountName": "[variables('diagnosticsStorageAccountName')]",
                     "storageAccountKey": "[listkeys(variables('accountid'), variables('storageApiVersion')).key1]",
-                    "storageAccountEndPoint": "https://core.windows.net"
+                    "storageAccountEndPoint": "https://core.chinacloudapi.cn",
+                    "endpoint": "table.core.chinacloudapi.cn"
                   }
                 }
-              },
-              {
-                  "name": "Docker",
-                  "properties": {
-                    "publisher": "Microsoft.Azure.Extensions",
-                    "type": "DockerExtension",
-                    "typeHandlerVersion": "1.0",
-                    "autoUpgradeMinorVersion": true,
-                    "settings": {
-                      "docker": {
-                        "port": "2375"
-                      }
-                    }
-                  }
-                },
-                {
-                  "name": "RancherAgent",
-                  "properties": {
-                    "publisher": "Microsoft.OSTCExtensions",
-                    "type": "CustomScriptForLinux",
-                    "typeHandlerVersion": "1.5",
-                    "autoUpgradeMinorVersion": true,
-                    "settings": {
-                      "fileUris": [
-                        "https://raw.githubusercontent.com/jadbox/docker-rancher-scripts/master/agent-with-local-ip/rancher.sh"
-                      ],
-                      "commandToExecute": "[concat('./rancher.sh ', parameters('rancherApi'))]"
-                    }
-                  }
-                }
+              }
             ]
           }
         }
+      }
+    },
+    {
+      "type": "Microsoft.Insights/autoscaleSettings",
+      "apiVersion": "[variables('insightsApiVersion')]",
+      "name": "autoscalewad",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+        "[concat('Microsoft.Compute/virtualMachineScaleSets/', variables('namingInfix'))]"
+      ],
+      "properties": {
+        "name": "autoscalewad",
+        "targetResourceUri": "[concat('/subscriptions/',subscription().subscriptionId, '/resourceGroups/',  resourceGroup().name, '/providers/Microsoft.Compute/virtualMachineScaleSets/', variables('namingInfix'))]",
+        "enabled": true,
+        "profiles": [
+          {
+            "name": "Profile1",
+            "capacity": {
+              "minimum": "2",
+              "maximum": "30",
+              "default": "2"
+            },
+            "rules": [
+              {
+                "metricTrigger": {
+                  "metricName": "\\Processor\\PercentProcessorTime",
+                  "metricNamespace": "",
+                  "metricResourceUri": "[concat('/subscriptions/',subscription().subscriptionId, '/resourceGroups/',  resourceGroup().name, '/providers/Microsoft.Compute/virtualMachineScaleSets/', variables('namingInfix'))]",
+                  "timeGrain": "PT1M",
+                  "statistic": "Average",
+                  "timeWindow": "PT5M",
+                  "timeAggregation": "Average",
+                  "operator": "GreaterThan",
+                  "threshold": 60.0
+                },
+                "scaleAction": {
+                  "direction": "Increase",
+                  "type": "ChangeCount",
+                  "value": "1",
+                  "cooldown": "PT1M"
+                }
+              },
+              {
+                "metricTrigger": {
+                  "metricName": "\\Processor\\PercentProcessorTime",
+                  "metricNamespace": "",
+                  "metricResourceUri": "[concat('/subscriptions/',subscription().subscriptionId, '/resourceGroups/',  resourceGroup().name, '/providers/Microsoft.Compute/virtualMachineScaleSets/', variables('namingInfix'))]",
+                  "timeGrain": "PT1M",
+                  "statistic": "Average",
+                  "timeWindow": "PT5M",
+                  "timeAggregation": "Average",
+                  "operator": "LessThan",
+                  "threshold": 50.0
+                },
+                "scaleAction": {
+                  "direction": "Decrease",
+                  "type": "ChangeCount",
+                  "value": "1",
+                  "cooldown": "PT1M"
+                }
+              }
+            ]
+          }
+        ]
       }
     }
   ]
