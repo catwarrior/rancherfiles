@@ -210,11 +210,9 @@
                   "autoUpgradeMinorVersion": false,
                   "settings": {
                     "fileUris": [
-                      "https://raw.githubusercontent.com/catwarrior/rancherfiles/master/autoscale/vmss-lapstack-autoscale/install_lap.sh",
-                      "https://raw.githubusercontent.com/catwarrior/rancherfiles/master/autoscale/vmss-lapstack-autoscale/index.php",
-                      "https://raw.githubusercontent.com/catwarrior/rancherfiles/master/autoscale/vmss-lapstack-autoscale/do_work.php"
+                      "https://raw.githubusercontent.com/catwarrior/rancherfiles/master/autoscale/install_rancher.sh"
                     ],
-                    "commandToExecute": "bash install_lap.sh"
+                    "commandToExecute": "bash install_rancher.sh [parameters('rancher_api')]"
                   }
                 }
               }
