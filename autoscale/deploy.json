@@ -4,21 +4,9 @@
   "parameters": {
     "vmSku": {
       "type": "string",
-      "defaultValue": "Standard_A1",
+      "defaultValue": "Standard_A3",
       "metadata": {
         "description": "Size of VMs in the VM Scale Set."
-      }
-    },
-    "ubuntuOSVersion": {
-      "type": "string",
-      "defaultValue": "14.04.3-LTS",
-      "allowedValues": [
-        "16.04-LTS",
-        "14.04.3-LTS",
-        "12.04.5-LTS"
-      ],
-      "metadata": {
-        "description": "The Ubuntu version for the VM. This will pick a fully patched image of this given Ubuntu version. Allowed values are: 15.10, 14.04.4-LTS."
       }
     },
     "vmssName":{
@@ -51,6 +39,12 @@
       "type": "string",
       "metadata": {
         "description": "Resource ID of the existing subnet to deploy the scale set into. Should be of the form: /subscriptions/YOUR_SUBSCRIPTION_ID/resourceGroups/YOUR_RESOURCE_GROUP/providers/Microsoft.Network/virtualNetworks/YOUR_VNET_NAME/subnets/YOUR_SUBNET_NAME"
+      }
+    },
+    "rancher_api": {
+      "type": "string",
+      "metadata": {
+        "description": "rancher api url to add a host to the cluster."
       }
     }
   },
@@ -97,10 +91,10 @@
     "wadmetricsresourceid": "[concat('/subscriptions/',subscription().subscriptionId,'/resourceGroups/',resourceGroup().name ,'/providers/','Microsoft.Compute/virtualMachineScaleSets/',variables('namingInfix'))]",
     "wadcfgxend": "[concat('\"><MetricAggregation scheduledTransferPeriod=\"PT1H\"/><MetricAggregation scheduledTransferPeriod=\"PT1M\"/></Metrics></DiagnosticMonitorConfiguration></WadCfg>')]",
     "osType": {
-      "publisher": "Canonical",
-      "offer": "UbuntuServer",
-      "sku": "[parameters('ubuntuOSVersion')]",
-      "version": "latest"
+      "publisher": "SUSE",
+      "offer": "SLES",
+      "sku": "12-SP2",
+      "version": "2017.03.20"
     },
     "imageReference": "[variables('osType')]",
     "computeApiVersion": "2016-03-30",
