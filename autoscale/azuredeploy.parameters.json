@@ -1,0 +1,24 @@
+{
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmssName": {
+      "value": "vmss1001"
+    },
+    "instanceCount": {
+      "value": 2
+    },
+    "adminUsername": {
+      "value": "azureuser"
+    },
+    "adminPassword": {
+      "value": "Azure123!"
+    },
+    "existingSubnetResourceId": {
+      "value": "/subscriptions/96e96992-4c36-4b58-a68f-ecbfb1f1b79e/resourcegroups/xmbafcmcnbeinfvnt001rg/providers/Microsoft.Network/virtualNetworks/XMBAFCMCNINFVNT001RG/subnets/XMBAFCMCNINFS03DB"
+    },
+    "rancher_api": {
+      "value": "http://172.21.1.196:8080/v1/scripts/34BB720F8333A846BC96:1483142400000:REn3UXk1xKdrU6Chc8bCGfWARgw"
+    },
+  }
+}
