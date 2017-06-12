@@ -187,7 +187,7 @@
                     "fileUris": [
                       "https://raw.githubusercontent.com/catwarrior/rancherfiles/master/autoscale/install_rancher.sh"
                     ],
-                    "commandToExecute": "bash install_rancher.sh [parameters('rancher_api')]"
+                    "commandToExecute":  "[concat('./install_rancher.sh ', parameters('rancher_api'))]"
                   }
                 }
               },
