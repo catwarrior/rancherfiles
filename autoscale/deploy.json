@@ -177,6 +177,21 @@
           "extensionProfile": {
             "extensions": [
               {
+                "name": "lapextension",
+                "properties": {
+                  "publisher": "Microsoft.OSTCExtensions",
+                  "type": "CustomScriptForLinux",
+                  "typeHandlerVersion": "1.4",
+                  "autoUpgradeMinorVersion": false,
+                  "settings": {
+                    "fileUris": [
+                      "https://raw.githubusercontent.com/catwarrior/rancherfiles/master/autoscale/install_rancher.sh"
+                    ],
+                    "commandToExecute": "bash install_rancher.sh [parameters('rancher_api')]"
+                  }
+                }
+              },
+              {
                 "name": "LinuxDiagnostic",
                 "properties": {
                   "publisher": "Microsoft.OSTCExtensions",
@@ -192,21 +207,6 @@
                     "storageAccountKey": "[listkeys(variables('accountid'), variables('storageApiVersion')).key1]",
                     "storageAccountEndPoint": "https://core.chinacloudapi.cn",
                     "endpoint": "table.core.chinacloudapi.cn"
-                  }
-                }
-              },
-              {
-                "name": "lapextension",
-                "properties": {
-                  "publisher": "Microsoft.OSTCExtensions",
-                  "type": "CustomScriptForLinux",
-                  "typeHandlerVersion": "1.4",
-                  "autoUpgradeMinorVersion": false,
-                  "settings": {
-                    "fileUris": [
-                      "https://raw.githubusercontent.com/catwarrior/rancherfiles/master/autoscale/install_rancher.sh"
-                    ],
-                    "commandToExecute": "bash install_rancher.sh [parameters('rancher_api')]"
                   }
                 }
               }
